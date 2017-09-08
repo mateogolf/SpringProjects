@@ -1,0 +1,25 @@
+.row{
+    display: flex;
+    flex-direction: row wrap;
+    justify-content: space-between;
+}
+.project{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+.box{
+	width: 200px;
+	height: 80px;
+	border: 1px solid black;
+	padding: 5px;
+}
+.img{
+	width: 150px;
+	height: 150px;
+	background-color: grey;
+}
+h1,h3,h4{
+	text-align: center;
+}
