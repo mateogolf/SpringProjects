@@ -9,5 +9,7 @@
 <p>tESTING</p>
  <c:out value="${2+2}"/>
  <c:out value="${dojoName}"/>
+	<p>Session Test<a href="/setSession">Add Session</a></p>
+ <c:out value="${sessionAttribute}"/>
 </body>
 </html>
