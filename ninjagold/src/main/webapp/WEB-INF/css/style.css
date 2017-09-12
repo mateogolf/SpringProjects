@@ -1,0 +1,32 @@
+@charset "ISO-8859-1";
+*{
+    margin: 0;
+    padding: 0;
+    background-color: red;
+}
+.wrapper{
+    display: flex;
+    flex-direction: column;
+}
+#incomeSources{
+    width: 900px;
+    display: flex;
+    justify-content: space-between;
+}
+#incomeSources>form{
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#activities{
+    height: 300px;
+    width: 900px;
+    overflow: auto;
+}
+/* a:last-of-type{
+    display: inline-block;
+} */
+ul{
+    list-style: none;
+}
