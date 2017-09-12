@@ -41,12 +41,7 @@ public class Books {
     
     @RequestMapping("/books/new")
     public String newBook(@Valid @ModelAttribute("book") Book book, BindingResult result) {
-//        if (result.hasErrors()) {
         return "newBook.jsp";
-//        }else{
-//            // Add the book
-//            return "redirect:/books";
-//        }
     }
     @PostMapping("/books/create")
     public String createBook(@Valid @ModelAttribute("book") Book book, BindingResult result) {
@@ -63,7 +58,7 @@ public class Books {
         Book book = bookService.findBookByIndex(id);
         if (book != null){
             model.addAttribute("book", book);
-            return "newBook.jsp";
+            return "editBook.jsp";
         }else{
             return "redirect:/books";
         }
@@ -71,10 +66,16 @@ public class Books {
     @PostMapping("/books/edit/{id}")
     public String updateBook(@PathVariable("id") int id, @Valid @ModelAttribute("book") Book book, BindingResult result) {
         if (result.hasErrors()) {
-            return "newBook.jsp";
+            return "editBook.jsp";
         }else{
             bookService.updateBook(id, book);
             return "redirect:/books";
         }
+    }
+    
+    @RequestMapping(value="/books/delete/{id}")
+    public String destroyBook(@PathVariable("id") int id) {
+        bookService.destroyBook(id);
+        return "redirect:/books";
     }
 }

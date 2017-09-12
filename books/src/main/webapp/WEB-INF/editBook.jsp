@@ -10,22 +10,22 @@
 </head>
 <body>
 RENDER BITCH!
-<form:form method="POST" action="/books/create" modelAttribute="book">
+<form:form method="POST" action="/books/edit/${id}" modelAttribute="book">
     <form:label path="title">Title
     <form:errors path="title"/>
     <form:input path="title"/><c:out value="${book.title}"/></form:label>
     
     <form:label path="description">Description
     <form:errors path="description"/>
-    <form:textarea path="description"/><c:out value="${book.description}"/></form:label>
+    <form:textarea path="description"/></form:label>
     
     <form:label path="language">language
     <form:errors path="language"/>
-    <form:input path="language"/><c:out value="${book.language}"/></form:label>
+    <form:input path="language"/></form:label>
     
     <form:label path="numberOfPages">Pages
     <form:errors path="numberOfPages"/>     
-    <form:input type="number" path="numberOfPages"/><c:out value="${book.numberOfPages}"/></form:label>
+    <form:input type="number" path="numberOfPages"/></form:label>
     
     <input type="submit" value="Submit"/>
 </form:form>

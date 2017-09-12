@@ -9,14 +9,16 @@
 </head>
 <body>
 <table class="table">
+<%int count = 0; %>
 <c:forEach items="${books}" var="book">
     <tr>    
     <td><c:out value="${book.title}"/></td>
     <td><c:out value="${book.description}"/></td>
     <td><c:out value="${book.language}"/></td>
     <td><c:out value="${book.numberOfPages}"/></td>
-    <td><a href="/books/delete/${loop.index}">Delete</a></td>
+    <td><a href="/books/delete/<%=count %>">Delete</a></td>
     </tr>
+    <%count++; %>
 </c:forEach>
 </table>
 </body>

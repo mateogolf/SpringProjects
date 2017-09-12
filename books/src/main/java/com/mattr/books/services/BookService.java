@@ -37,4 +37,9 @@ public class BookService {
             books.set(id, book);
         }
     }
+	public void destroyBook(int id) {
+		if (id < books.size()){
+			books.remove(id);
+        }
+	}
 }
