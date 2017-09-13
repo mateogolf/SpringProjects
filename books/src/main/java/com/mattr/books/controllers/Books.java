@@ -28,25 +28,25 @@ public class Books {
     public String books(Model model) {
     	ArrayList<Book> books = bookService.allBooks();
         model.addAttribute("books", books);
-        return "books.jsp";
+        return "books";
     }
     
     @RequestMapping("/books/{index}")
-    public String findBookByIndex(Model model, @PathVariable("index") int index) {
-        Book book = bookService.findBookByIndex(index);
+    public String findBookByIndex(Model model, @PathVariable("index") Long index) {
+//        Book book = bookService.findBookByIndex(index);
         model.addAttribute("id", index);
-        model.addAttribute("book", book);
-        return "showBook.jsp";
+        model.addAttribute("book", bookService.findBookByIndex(index));
+        return "showBook";
     }
     
     @RequestMapping("/books/new")
     public String newBook(@Valid @ModelAttribute("book") Book book, BindingResult result) {
-        return "newBook.jsp";
+        return "newBook";
     }
     @PostMapping("/books/create")
     public String createBook(@Valid @ModelAttribute("book") Book book, BindingResult result) {
         if (result.hasErrors()) {
-            return "newBook.jsp";
+            return "newBook";
         }else{
         	bookService.addBook(book);
             return "redirect:/books";
@@ -54,19 +54,19 @@ public class Books {
     }
     
     @RequestMapping("/books/edit/{id}")
-    public String editBook(@PathVariable("id") int id, Model model) {
+    public String editBook(@PathVariable("id") Long id, Model model) {
         Book book = bookService.findBookByIndex(id);
         if (book != null){
             model.addAttribute("book", book);
-            return "editBook.jsp";
+            return "editBook";
         }else{
             return "redirect:/books";
         }
     }
     @PostMapping("/books/edit/{id}")
-    public String updateBook(@PathVariable("id") int id, @Valid @ModelAttribute("book") Book book, BindingResult result) {
+    public String updateBook(@PathVariable("id") Long id, @Valid @ModelAttribute("book") Book book, BindingResult result) {
         if (result.hasErrors()) {
-            return "editBook.jsp";
+            return "editBook";
         }else{
             bookService.updateBook(id, book);
             return "redirect:/books";
@@ -74,7 +74,7 @@ public class Books {
     }
     
     @RequestMapping(value="/books/delete/{id}")
-    public String destroyBook(@PathVariable("id") int id) {
+    public String destroyBook(@PathVariable("id") Long id) {
         bookService.destroyBook(id);
         return "redirect:/books";
     }
