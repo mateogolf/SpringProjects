@@ -5,39 +5,36 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 
 import com.mattr.crud.models.Language;
+import com.mattr.crud.repositories.LanguageRepository;
 
 @Service
 public class CRUDService {
-	private ArrayList<Language> languages = new ArrayList<Language>();
+	private LanguageRepository langrepo;
+	
+	public CRUDService(LanguageRepository langrepo) {
+		this.langrepo = langrepo;
+	}
 	
 	public ArrayList<Language> allLang(){
-		return languages;
+		return (ArrayList<Language>)langrepo.findAll();
 	}
 	
 	//For show method
-	public Language langAt(int index) {
-		if (index < languages.size()){
-            return languages.get(index);
-        }else{
-            return null;
-        }
+	public Language langAt(Long id) {
+		return langrepo.findOne(id);
 	}
 	
 	//create
 	public void addLang(Language lang) {
-		languages.add(lang);
+		langrepo.save(lang);
 	}
 	
 	//edit
-	public void updateLang(int id, Language lang) {
-		if (id < languages.size()){
-	        languages.set(id, lang);
-	    }
+	public void updateLang(Long id, Language lang) {
+		langrepo.save(lang);
 	}
 	//destroy
-	public void destroyLang(int id) {
-		if (id < languages.size()){
-			languages.remove(id);
-        }
+	public void destroyLang(Long id) {
+		langrepo.delete(id);
 	}
 }

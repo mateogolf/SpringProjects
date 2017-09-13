@@ -50,11 +50,13 @@ public class Book {
 	
 	public Book(){
 	}
-	public Book(String title,String description,String language,int numberOfPages){
+	public Book(String title,String description,String language,int numberOfPages, Date created_at, Date updated_at){
 		this.title = title;
 		this.description = description;
 		this.language = language;
 		this.numberOfPages = numberOfPages;
+		this.created_at = created_at;
+		this.updated_at = updated_at;
 	}
 	public String getTitle() {
 		return title;

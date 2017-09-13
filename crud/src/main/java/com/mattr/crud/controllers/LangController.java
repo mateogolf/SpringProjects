@@ -34,7 +34,7 @@ public class LangController {
 	
 	//view
 	@RequestMapping("/{id}")
-	public String showLang(Model model, @PathVariable("id") int index) {
+	public String showLang(Model model, @PathVariable("id") Long index) {
 		Language language = crud.langAt(index);
 		model.addAttribute("language", language);
 		model.addAttribute("id", index);
@@ -53,7 +53,7 @@ public class LangController {
 	}
 	//view edit
 	@RequestMapping("/edit/{id}")
-	public String editLang(Model model,@PathVariable("id") int index) {
+	public String editLang(Model model,@PathVariable("id") Long index) {
 		Language language = crud.langAt(index);
 		if (language != null){
 			model.addAttribute("language", language);
@@ -64,7 +64,7 @@ public class LangController {
 	}
 	//Update
 	@PostMapping("/edit/{id}")
-	public String updateLang(@PathVariable("id") int id,@Valid @ModelAttribute("language") Language language, BindingResult result) {
+	public String updateLang(@PathVariable("id") Long id,@Valid @ModelAttribute("language") Language language, BindingResult result) {
 		if (result.hasErrors()) {
             return "editLang.jsp";
         }else{
@@ -74,9 +74,7 @@ public class LangController {
 	}
 	//destroy
 	@RequestMapping("/delete/{id}")
-	public String deleteLang(@PathVariable("id") int id) {
-//		Language lang = crud.langAt(id);
-//		redirectAttributes.addFlashAttribute("msg", lang.getName() + " was deleted");
+	public String deleteLang(@PathVariable("id") Long id) {
 		crud.destroyLang(id);
 		return "redirect:/languages";
 		
