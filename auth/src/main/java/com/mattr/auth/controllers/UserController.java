@@ -42,10 +42,15 @@ public class UserController {
     if (result.hasErrors()) {
         return "registrationPage";
     }
-    userService.saveWithUserRole(user);
+    userService.saveUserWithAdminRole(user);
     return "redirect:/login";
     }
-    
+    @RequestMapping("/admin")
+    public String adminPage(Principal principal, Model model) {
+        String username = principal.getName();
+        model.addAttribute("currentUser", userService.findByUsername(username));
+        return "adminPage";
+    }
     @RequestMapping("/login")
     public String login() {
         return "loginPage";
