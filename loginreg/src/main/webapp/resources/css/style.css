@@ -1,0 +1,9 @@
+@charset "ISO-8859-1";
+ul>li{
+    color:red;
+    list-style: none;
+}
+header{
+	display:flex;
+	flex-direction: row;
+}
