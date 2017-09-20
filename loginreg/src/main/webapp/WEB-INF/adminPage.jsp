@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Admin Page</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css"/>
 </head>
 <body>
@@ -33,16 +33,14 @@
                 <td>
                     <%boolean adminFound=false; %>
                     <c:forEach items="${user.roles}" var="role">
-                        <c:choose>
-                        <c:when test="${role.id == 2}">
+                        <c:if test="${role.id == 2}">
                         	<%adminFound=true; %>
-                        </c:when>
-                        </c:choose>
+                        </c:if>
                     </c:forEach>
                     <% if(adminFound){%>
-                    	<p>admin</p>
+                    	admin
                     <%}else{ %>
-                    	<p><a href="/delete/${user.id}">delete</a> <a href="/makeAdmin/${user.id}">make-admin</a></p>
+                    	<a href="/delete/${user.id}">delete</a> <a href="/makeAdmin/${user.id}">make-admin</a>
                     <%} %>
                 </td>
             </tr>

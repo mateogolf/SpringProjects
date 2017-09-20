@@ -18,7 +18,6 @@
         <input type="submit" value="Logout!" />
     </form>
 </header>
-<c:set var = "now" value = "<%= new java.util.Date()%>" />
 <table class="profile">
     <tr>
         <td>First Name</td>

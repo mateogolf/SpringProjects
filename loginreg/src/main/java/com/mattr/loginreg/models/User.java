@@ -23,11 +23,11 @@ public class User {
 	@Id
 	@GeneratedValue
 	private Long id;
-	@Size(min=2,max=255)
-	private String firstName;
-	@Size(min=2,max=255)
-	private String lastName;
-	@Email
+	@Size(min=2,max=255)//extra
+	private String firstName;//extra
+	@Size(min=2,max=255)//extra
+	private String lastName;//extra
+	@Email//extra
 	private String email;
 	@Size(min=8, message="Password must be greater than 8 characters")
 	private String password;
@@ -40,10 +40,10 @@ public class User {
 	    inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles;
 	
-	@DateTimeFormat(pattern = "MM/dd/yyyy HH:mm:ss")
+	@DateTimeFormat(pattern = "MM/dd/yyyy HH:mm:ss")//extra
 	private Date createdAt;
 
-	@DateTimeFormat(pattern = "MM/dd/yyyy HH:mm:ss")
+	@DateTimeFormat(pattern = "MM/dd/yyyy HH:mm:ss")//extra
 	private Date updatedAt;
 
 	@PrePersist
