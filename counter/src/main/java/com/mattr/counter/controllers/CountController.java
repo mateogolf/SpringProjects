@@ -16,26 +16,30 @@ public class CountController {
         return 0;
     }
 	@RequestMapping("/")
-    public String index(Model model,HttpSession session,@ModelAttribute("counter") int sessionAttribute) {
-		int newCount = (int)session.getAttribute("counter") + 1;
-		System.out.println(newCount);
-		model.addAttribute("counter", newCount);
+    public String index(Model model,@ModelAttribute("counter") int counter) {//HttpSession session) {
+//		if(session.getAttribute("counter") == null) {
+//			session.setAttribute("counter", 1);
+//			System.out.println(session.getAttribute("counter"));
+//		}else {
+			int newCount = counter + 1;
+			model.addAttribute("counter", newCount);
+//		}
         return "forward:/index.html";
     }
 	@RequestMapping("/counter")
-    public String setSession(Model model,HttpSession session,@ModelAttribute("counter") int sessionAttribute){
-//		int newCount = (int)session.getAttribute("counter") + 1;
-//		System.out.println(newCount);
-//		model.addAttribute("counter", newCount);
-        return "count.jsp";
+    public String setSession(Model model,@ModelAttribute("counter") int counter) {//,HttpSession session){
+//		if(session.getAttribute("counter") == null) {
+//			return "redirect:/";
+//			model.addAttribute("counter", 0);
+//		}else {
+//			model.addAttribute("counter", (int)session.getAttribute("counter"));
+//		}
+        return "count";
     }
-//	@ModelAttribute("/reset")
-	public String resetAttribute(Model model, HttpSession session){
-//		getSessionAttribute();
-		session.invalidate();
-//		session.setAttribute("counter", 0);
-//		session.removeAttribute("sessionAttribute");
-		return "forward:/index.html";
+	@RequestMapping("/reset")
+	public String resetAttribute(Model model){
+		model.addAttribute("counter",0);
+		return "redirect:/";
     }
 
 }
