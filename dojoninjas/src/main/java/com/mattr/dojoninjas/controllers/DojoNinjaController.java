@@ -1,6 +1,7 @@
 package com.mattr.dojoninjas.controllers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -65,8 +66,11 @@ public class DojoNinjaController {
 	public String viewDojo(Model model,@PathVariable("id") Long id) {
 		Dojo dojo = service.dojoAt(id);
 		model.addAttribute("dojo",dojo);
-//		ArrayList<Ninja> ninjas = service.allNinjasAtDojo(id);
-//		model.addAttribute("ninjas",ninjas);
+		ArrayList<Object[]> table = service.joinDojosAndNinjas2();
+		model.addAttribute("table",table);
+//		ArrayList<Dojo> dojos = service.findAllDojosByNinjaCountDesc();
+//		
+//		model.addAttribute("dojos",dojos);
 		return "viewDojo";
 	}
 		//use Dojo.getNinjas(); for model.addAttribute("ninjas",ninjas);

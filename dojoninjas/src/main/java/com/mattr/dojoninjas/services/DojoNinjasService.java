@@ -1,6 +1,7 @@
 package com.mattr.dojoninjas.services;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -24,10 +25,17 @@ public class DojoNinjasService {
 	}
 	
 //	//all ninjas for a Dojo
-//	public ArrayList<Ninja> allNinjasAtDojo(Long id){
-//		Dojo dojo = dojoRepo.findOne(id);
-//		return (ArrayList<Ninja>)dojo.getNinjas();
+//	public ArrayList<Dojo> findAllDojosByNinjaCountDesc(){
+//		return (ArrayList<Dojo>) dojoRepo.findAllOrderByNinjasDesc();
 //	}
+	public ArrayList<Object[]> joinDojosAndNinjas2(){
+		ArrayList<Object[]> table = dojoRepo.joinDojosAndNinjas2();
+		for(Object[] row : table) {
+		    Dojo dojo = (Dojo) row[0];
+		    Ninja ninja = (Ninja) row[1];
+		}
+		return table;
+	}
 	
 	//new Dojo
 	public void addDojo(Dojo dojo) {
