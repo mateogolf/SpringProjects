@@ -14,7 +14,7 @@ public class CountController {
 	@ModelAttribute("counter")
     public int getSessionAttribute(){
         return 0;
-    }
+    }//The hard way is commented out and NOT using @ModelAttribute as parameter
 	@RequestMapping("/")
     public String index(Model model,@ModelAttribute("counter") int counter) {//HttpSession session) {
 //		if(session.getAttribute("counter") == null) {
