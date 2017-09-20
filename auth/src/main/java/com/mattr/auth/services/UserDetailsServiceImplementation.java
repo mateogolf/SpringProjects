@@ -16,7 +16,6 @@ import com.mattr.auth.repositories.UserRepository;
 
 @Service
 public class UserDetailsServiceImplementation implements UserDetailsService {
-
     private UserRepository userRepository;
     
     public UserDetailsServiceImplementation(UserRepository userRepository){

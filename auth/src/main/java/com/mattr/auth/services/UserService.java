@@ -1,11 +1,16 @@
 package com.mattr.auth.services;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mattr.auth.models.User;
 import com.mattr.auth.repositories.RoleRepository;
 import com.mattr.auth.repositories.UserRepository;
+import com.mattr.auth.models.Role;
 
 @Service
 public class UserService {
@@ -38,4 +43,24 @@ public class UserService {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+    public void updateUser(User user) {
+    	user.setUpdatedAt(new Date());
+    	userRepository.save(user);
+    }
+	public List<User> allAdmins(){
+		List<Role> role = roleRepository.findByName("ROLE_ADMIN");
+		return role.get(0).getUsers();
+	}
+	public ArrayList<User> allUsers(){
+		return (ArrayList<User>)userRepository.findAll();
+	}
+	public void makeAdmin(Long id) {
+		User user = userRepository.findOne(id);
+		List<Role> roles = roleRepository.findByName("ROLE_ADMIN");
+		user.setRoles(roles);
+		userRepository.save(user);
+	}
+	public void destroyUser(Long id) {
+		userRepository.delete(id);
+	}
 }
