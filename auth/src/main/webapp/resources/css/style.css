@@ -3,7 +3,7 @@ ul>li{
     color:red;
     list-style: none;
 }
-header{
-	display:flex;
-	flex-direction: row;
+.profile{
+	border:1px solid black;
+	padding: 5px;
 }

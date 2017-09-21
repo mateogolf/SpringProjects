@@ -1,5 +1,6 @@
 package com.mattr.auth.models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -114,5 +115,13 @@ public class User {
 	@PreUpdate
 	protected void onUpdate(){
 		this.updatedAt = new Date();
+	}
+	public boolean isAdmin() {
+		for(Role role:roles) {
+			if(role.getName().equals("ROLE_ADMIN")) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -9,5 +9,5 @@ import com.mattr.auth.models.Role;
 
 @Repository
 public interface RoleRepository extends CrudRepository<Role,Long> {
-	List<Role> findByName(String name);
+	Role findByName(String name);
 }

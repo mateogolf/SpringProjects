@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +26,7 @@ public class UserController {
 	private UserService userService;
 	private UserValidator userValidator;
     
-	
-    
-    public UserController(UserService userService, UserValidator userValidator) {
+	public UserController(UserService userService, UserValidator userValidator) {
 		this.userService = userService;
 		this.userValidator = userValidator;
 	}
@@ -85,11 +84,25 @@ public class UserController {
         return "redirect:/";
     }
     
-    @RequestMapping(value = {"/", "/home"})
+    @RequestMapping("/")
+    public String afterLogin(Principal principal, Model model) {
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
+        model.addAttribute("currentUser",user);
+        System.out.println(user.isAdmin());
+        model.addAttribute("isAdmin",user.isAdmin());
+        userService.updateUser(user);
+        if(user.isAdmin()) {
+        	return "redirect:/admin";
+        }
+        return "homePage";
+    }
+    @RequestMapping("/home")
     public String home(Principal principal, Model model) {
         String username = principal.getName();
         User user = userService.findByUsername(username);
         model.addAttribute("currentUser",user);
+        model.addAttribute("isAdmin",user.isAdmin());
         userService.updateUser(user);
         return "homePage";
     }
@@ -98,7 +111,7 @@ public class UserController {
     	userService.makeAdmin(id);
     	return "redirect:/admin";
     }
-    @RequestMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String delUser(@PathVariable("id") Long id) {
     	userService.destroyUser(id);
     	return "redirect:/admin";

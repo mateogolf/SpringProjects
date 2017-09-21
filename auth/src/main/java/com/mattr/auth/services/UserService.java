@@ -1,6 +1,7 @@
 package com.mattr.auth.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -27,15 +28,19 @@ public class UserService {
     
     // 1
     public void saveWithUserRole(User user) {
+    	List<Role> roles = Arrays.asList(roleRepository.findByName("ROLE_USER"));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(roleRepository.findByName("ROLE_USER"));
+        user.setRoles(roles);
         userRepository.save(user);
     }
      
      // 2 
     public void saveUserWithAdminRole(User user) {
+    	ArrayList<Role> roles = new ArrayList<Role>();
+    	roles.add(roleRepository.findByName("ROLE_ADMIN"));
+    	roles.add(roleRepository.findByName("ROLE_USER"));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(roleRepository.findByName("ROLE_ADMIN"));
+        user.setRoles(roles);
         userRepository.save(user);
     }    
     
@@ -43,22 +48,22 @@ public class UserService {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-    public void updateUser(User user) {
+    public User updateUser(User user) {
     	user.setUpdatedAt(new Date());
-    	userRepository.save(user);
+    	return userRepository.save(user);
     }
 	public List<User> allAdmins(){
-		List<Role> role = roleRepository.findByName("ROLE_ADMIN");
-		return role.get(0).getUsers();
+		Role role = roleRepository.findByName("ROLE_ADMIN");
+		return role.getUsers();
 	}
 	public ArrayList<User> allUsers(){
 		return (ArrayList<User>)userRepository.findAll();
 	}
 	public void makeAdmin(Long id) {
 		User user = userRepository.findOne(id);
-		List<Role> roles = roleRepository.findByName("ROLE_ADMIN");
-		user.setRoles(roles);
-		userRepository.save(user);
+		if(!user.isAdmin()) {
+			this.saveUserWithAdminRole(user);
+		}
 	}
 	public void destroyUser(Long id) {
 		userRepository.delete(id);
