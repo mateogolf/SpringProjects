@@ -79,14 +79,14 @@
         <c:forEach items="${packs}" var="pack">
         <tr>
         	<td>${pack.name}</td>
-        	<td>${pack.cost}</td>
+        	<td>$${pack.cost}</td>
         	<c:choose>
         	<c:when test="${pack.availability}">
 	        	<td>available</td>
 	        	<td>${pack.countSubs()}</td>
 				<td><a href="/deactivate/${pack.id}">deactivate</a> 
 					<c:if test="${pack.countSubs()==0}">
-	        			<a href="/events/${user.id}/delete">Delete</a>
+	        			<a href="/delete/${pack.id}">Delete</a>
 	        		</c:if>
 				</td>
         	</c:when>
@@ -95,7 +95,7 @@
 	        	<td>${pack.countSubs()}</td>
                 <td><a href="/activate/${pack.id}">activate</a> 
 					<c:if test="${pack.countSubs()==0}">
-	        			<a href="/events/${user.id}/delete">Delete</a>
+	        			<a href="/delete/${pack.id}">Delete</a>
 	        		</c:if>
 				</td>
             </c:otherwise>

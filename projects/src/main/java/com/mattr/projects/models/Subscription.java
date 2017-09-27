@@ -1,6 +1,6 @@
 package com.mattr.projects.models;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -15,7 +15,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
-import org.assertj.core.util.DateUtil;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -112,32 +111,34 @@ public class Subscription {
 		this.updatedAt = updatedAt;
 	}
 	public Date nextDueDate() {
-		Calendar cal = Calendar.getInstance();
-		Date today = new Date();
-		int year = today.getYear()+1900;
-		System.out.println(today);
-		System.out.println(year+1900);
-		cal.set(year, today.getMonth()+1, 1);
-		int lastday = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-		Date result = new Date();
-//		System.out.println(year);
-		if(today.getDay()<=this.dueDate) {			
-			if(dueDate<= lastday) {
-				cal.set(year, today.getMonth()+1, this.dueDate);
+		LocalDate today = LocalDate.now();
+		int lastDay = today.lengthOfMonth();
+		int year = today.getYear();
+		int month = today.getMonthValue();
+		java.util.Date date = java.sql.Date.valueOf(today);
+		if(today.getDayOfMonth()<=this.dueDate) {
+			if(dueDate<= lastDay) {
+				LocalDate nextDueDate = today.of(year, month, dueDate);
+				date = java.sql.Date.valueOf(nextDueDate);
 			}else {
-				cal.set(year, today.getMonth()+1, lastday);
+				LocalDate nextDueDate = today.of(year, month, lastDay);
+				date = java.sql.Date.valueOf(nextDueDate);
 			}
-			result = cal.getTime();//new Date();
 		}
 		else {
-			if(dueDate<= lastday) {
-				cal.set(year, today.getMonth(), this.dueDate);
+			LocalDate nextMonth = today.plusMonths(1);
+			year = nextMonth.getYear();
+			month = nextMonth.getMonthValue();
+			lastDay = nextMonth.lengthOfMonth();
+			if(dueDate<= lastDay) {
+				LocalDate nextDueDate = today.of(year, month, dueDate);
+				date = java.sql.Date.valueOf(nextMonth);
 			}else {
-				cal.set(year, today.getMonth(), lastday);
+				LocalDate nextDueDate = today.of(year, month, lastDay);
+				date = java.sql.Date.valueOf(nextDueDate);
 			}
-			result = cal.getTime();
 		}
-		return result;
+		return date;
 	}
 	
 }
