@@ -19,7 +19,6 @@ public class WorldService {
 	
 	public WorldService(CharRepo charRepo, ClearanceRepo clearRepo, FollowerRepo fRepo, LawRepo lawRepo,
 			LoreRepo loreRepo, WorldRepo repo, UserRepository userRepository) {
-		super();
 		this.charRepo = charRepo;
 		this.clearRepo = clearRepo;
 		this.fRepo = fRepo;
@@ -32,9 +31,13 @@ public class WorldService {
 	
 	//Manages the basic functions for world:
 	//All Worlds
-	//All Clearance
-	//
 	//View World
-	//Add users to specific clearances
+	//All Clearance
+	//ADD:
+	//	World
+	//	Follower: Add users to specific clearances(WRITER ONLY)
+	
+	//Add users to specific clearances: Follower add
+	
 	//Add Law/Lore/Character(***StoryNode in StoryService***)
 }

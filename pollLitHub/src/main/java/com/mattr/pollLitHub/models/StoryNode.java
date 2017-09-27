@@ -38,6 +38,9 @@ public class StoryNode {
 	@JoinColumn(name="world_id")
 	private World world;
 	//Clearance
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="clearance_id")
+	private Clearance clearance;
 	
 //	//Head Node
 //	@OneToOne(mappedBy="head", fetch=FetchType.LAZY)
@@ -75,13 +78,26 @@ public class StoryNode {
 	public StoryNode() {		
 	}
 
-	public StoryNode(String blurb, String content, NodeType nType, World world) {
+	public StoryNode(String blurb, String content, NodeType nType, World world,Clearance clearance) {
 		this.blurb = blurb;
 		this.content = content;
 		this.nType = nType;
 		this.world = world;
+		this.clearance = clearance;
 		this.createdAt = new Date();
 		this.updatedAt = new Date();
+	}
+	
+	public StoryNode(String blurb, String content, NodeType nType, World world, Clearance clearance,
+			StoryNode superNode, Date createdAt, Date updatedAt) {
+		this.blurb = blurb;
+		this.content = content;
+		this.nType = nType;
+		this.world = world;//hidden
+		this.clearance = clearance;//hidden?
+		this.superNode = superNode;//hidden
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
 	}
 
 	public Long getId() {
@@ -187,6 +203,23 @@ public class StoryNode {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	
+	public Clearance getClearance() {
+		return clearance;
+	}
+
+	public void setClearance(Clearance clearance) {
+		this.clearance = clearance;
+	}
+
+	public int getNodeNum() {
+		return nodeNum;
+	}
+
+	public void setNodeNum(int nodeNum) {
+		this.nodeNum = nodeNum;
+	}
+
 	public String toString() {
 		if(this.superNode==null) {return blurb;}
 		String result = this.nType.getName() + "(" + this.nodeNum + ")";
