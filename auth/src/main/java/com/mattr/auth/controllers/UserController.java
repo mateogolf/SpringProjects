@@ -39,8 +39,8 @@ public class UserController {
 //    public String login() {
 //        return "loginPage";
 //    }
-	@RequestMapping(value= {"/login","/registration"})
-	public String viewLogReg(@Valid @ModelAttribute("user") User user) {
+	@RequestMapping("/registration")
+	public String viewLogReg(@Valid @ModelAttribute("user") User user,BindingResult result) {
 		return "loginReg";
 	}
     
@@ -73,15 +73,18 @@ public class UserController {
         return "adminPage";
     }
     
-    @PostMapping("/login")
-    public String login(@RequestParam(value="error", required=false) String error, @RequestParam(value="logout", required=false) String logout, Model model) {
-        if(error != null) {
+    @RequestMapping("/login")
+    public String login(@RequestParam(value="error", required=false) String error, @RequestParam(value="logout", required=false) String logout, Model model,@Valid @ModelAttribute("user") User user,BindingResult result) {
+        
+    	if(error != null) {
             model.addAttribute("errorMessage", "Invalid Credentials, Please try again.");
+            System.out.println("Error created");
         }
         if(logout != null) {
             model.addAttribute("logoutMessage", "Logout Successfull!");
+            System.out.println("Logout created");
         }
-        return "redirect:/";
+        return "loginReg";
     }
     
     @RequestMapping("/")
