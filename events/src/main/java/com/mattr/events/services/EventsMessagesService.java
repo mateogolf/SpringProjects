@@ -1,9 +1,7 @@
 package com.mattr.events.services;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -32,8 +30,7 @@ public class EventsMessagesService {
 	public ArrayList<Event> localEvents(String state){
 		return eventRepo.findByDateAfterAndState(new Date(),state);
 	}
-	public ArrayList<Event> otherEvents(String state){//ArrayList<String> state){
-//		return eventRepo.findByStateNotIn(state);
+	public ArrayList<Event> otherEvents(String state){
 		return eventRepo.findByDateAfterAndStateNotLike(new Date(), state);
 	}
 	
