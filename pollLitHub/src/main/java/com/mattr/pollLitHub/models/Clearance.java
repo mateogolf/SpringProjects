@@ -36,7 +36,7 @@ public class Clearance {
 	private List<Lore> lore;
 	//Characters
 	@OneToMany(mappedBy="clearance", fetch=FetchType.LAZY)
-	private List<Character> characters;
+	private List<Chara> charas;
 	//StoryNode
 	@OneToMany(mappedBy="clearance", fetch=FetchType.LAZY)
 	private List<StoryNode> StoryNode;
@@ -113,6 +113,38 @@ public class Clearance {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public List<Law> getLaws() {
+		return laws;
+	}
+
+	public void setLaws(List<Law> laws) {
+		this.laws = laws;
+	}
+
+	public List<Lore> getLore() {
+		return lore;
+	}
+
+	public void setLore(List<Lore> lore) {
+		this.lore = lore;
+	}
+
+	public List<Chara> getCharacters() {
+		return charas;
+	}
+
+	public void setCharacters(List<Chara> charas) {
+		this.charas = charas;
+	}
+
+	public List<StoryNode> getStoryNode() {
+		return StoryNode;
+	}
+
+	public void setStoryNode(List<StoryNode> storyNode) {
+		StoryNode = storyNode;
 	}
 	
 	

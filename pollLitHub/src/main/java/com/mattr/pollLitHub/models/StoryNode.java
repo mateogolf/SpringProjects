@@ -8,9 +8,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.Size;
@@ -49,8 +50,15 @@ public class StoryNode {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="super_id")
 	private StoryNode superNode;//superNode must by a type whose id is < this node's id
-	@OneToMany(mappedBy="superNode", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="superNode", fetch=FetchType.LAZY)
 	private List<StoryNode> subNodes;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+		name = "nodes_characters", 
+		joinColumns = @JoinColumn(name = "snode_id"), 
+		inverseJoinColumns = @JoinColumn(name = "character_id"))
+	private List<Chara> charas;
 	
 	//node location: user to keep track of the timeline
 	private int nodeNum;
@@ -88,17 +96,17 @@ public class StoryNode {
 		this.updatedAt = new Date();
 	}
 	
-	public StoryNode(String blurb, String content, NodeType nType, World world, Clearance clearance,
-			StoryNode superNode, Date createdAt, Date updatedAt) {
-		this.blurb = blurb;
-		this.content = content;
-		this.nType = nType;
-		this.world = world;//hidden
-		this.clearance = clearance;//hidden?
-		this.superNode = superNode;//hidden
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-	}
+//	public StoryNode(String blurb, String content, NodeType nType, World world, Clearance clearance,
+//			StoryNode superNode) {
+//		this.blurb = blurb;
+//		this.content = content;
+//		this.nType = nType;
+//		this.world = world;//hidden
+//		this.clearance = clearance;//hidden?
+//		this.superNode = superNode;//hidden
+//		this.createdAt = new Date();
+//		this.updatedAt = new Date();
+//	}
 
 	public Long getId() {
 		return id;
@@ -218,6 +226,18 @@ public class StoryNode {
 
 	public void setNodeNum(int nodeNum) {
 		this.nodeNum = nodeNum;
+	}
+	
+	public List<Chara> getCharacters() {
+		return charas;
+	}
+
+	public void setCharacters(List<Chara> charas) {
+		this.charas = charas;
+	}
+	
+	public void addCharacter(Chara chara) {
+		this.charas.add(chara);
 	}
 
 	public String toString() {

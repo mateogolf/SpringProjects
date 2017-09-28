@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,27 +19,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mattr.pollLitHub.models.User;
+import com.mattr.pollLitHub.models.World;
 import com.mattr.pollLitHub.services.UserService;
+import com.mattr.pollLitHub.services.WorldService;
 import com.mattr.pollLitHub.validator.UserValidator;
 
 @Controller
 public class UserController {
 	private UserService userService;
 	private UserValidator userValidator;
+	private WorldService worldService;
     
-	public UserController(UserService userService, UserValidator userValidator) {
+	public UserController(UserService userService, UserValidator userValidator,WorldService worldService) {
 		this.userService = userService;
 		this.userValidator = userValidator;
+		this.worldService = worldService;
 	}
-
-//	@RequestMapping("/registration")
-//    public String registerForm(@Valid @ModelAttribute("user") User user) {
-//        return "registrationPage";
-//    }
-//	@RequestMapping("/login")
-//    public String login() {
-//        return "loginPage";
-//    }
 	@RequestMapping("/registration")
 	public String viewLogReg(@Valid @ModelAttribute("user") User user,BindingResult result) {
 		return "loginReg";
@@ -98,23 +94,46 @@ public class UserController {
         if(user.isAdmin()) {
         	return "redirect:/admin";
         }
-        return "redirect:/home";
+        return "redirect:/profile";
     }
-    @RequestMapping("/home")
-    public String home(Principal principal, Model model) {
+    @RequestMapping("/profile")
+    public String profile(Principal principal, Model model,@Valid @ModelAttribute("world") World world, BindingResult result) {
         String username = principal.getName();
         User user = userService.findByUsername(username);
         model.addAttribute("currentUser",user);
         model.addAttribute("isAdmin",user.isAdmin());
-        userService.updateUser(user);
         return "profile";
     }
+    @PostMapping("/profile")
+    public String addWorld(Principal principal, Model model,@Valid @ModelAttribute("world") World world, BindingResult result) {
+        if (!result.hasErrors()) {
+        	String username = principal.getName();
+            User user = userService.findByUsername(username);
+            ArrayList<User> writers = new ArrayList<User>();
+            writers.add(user);
+            world.setWriters(writers);
+        	worldService.addWorld(world);
+        }
+        String username = principal.getName();
+        User thisUser = userService.findByUsername(username);
+        model.addAttribute("currentUser",thisUser);
+        model.addAttribute("isAdmin",thisUser.isAdmin());
+        return "profile";
+    }
+    
+//    @RequestMapping("/users/${userId}/unfollow/${worldId}")
+//    public String unfollow(@PathVariable("userId") Long userId,@PathVariable("worldId") Long worldId) {
+//    	worldService.unfollow(userId, worldId);
+//    	return "redirect:/profile";
+//    }
+    
+    
     @RequestMapping("/makeAdmin/{id}")
     public String makeAd(@PathVariable("id") Long id) {
     	userService.makeAdmin(id);
     	return "redirect:/admin";
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/users/{id}/delete")
     public String delUser(@PathVariable("id") Long id) {
     	userService.destroyUser(id);
     	return "redirect:/admin";

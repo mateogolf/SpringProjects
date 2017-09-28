@@ -25,7 +25,7 @@ public class Law {
 	private String content;
 	
 	//Relationships
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="world_id")
 	private World world;
 	//Clearance

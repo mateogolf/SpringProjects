@@ -11,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.Size;
@@ -24,16 +23,16 @@ public class World {
 	@GeneratedValue
 	private Long id;
 	//Columns
-	@Size(min=1)
+	@Size(min=1,max=100)
 	private String name;
-	@Size(min=1)
+	@Size(min=1,max=255)
 	private String description;
 	
 	//Relationships
 	//Writers
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
-		name = "writers", 
+		name = "users_worlds", 
 		joinColumns = @JoinColumn(name = "world_id"), 
 		inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private List<User> writers;
@@ -41,14 +40,14 @@ public class World {
 	@OneToMany(mappedBy="world", fetch=FetchType.LAZY)
 	private List<Follower> followers;
 	//Law
-	@OneToMany(mappedBy="world", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="world", fetch=FetchType.LAZY)
 	private List<Law> laws;
 	//Lore
-	@OneToMany(mappedBy="world", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="world", fetch=FetchType.LAZY)
 	private List<Lore> lore;
 	//Characters
 	@OneToMany(mappedBy="world", fetch=FetchType.LAZY)
-	private List<Character> characters;
+	private List<Chara> charas;
 //	//First StoryNode
 //	@OneToOne(mappedBy="headofWorld", fetch=FetchType.LAZY)
 //	private StoryNode head;
@@ -71,10 +70,9 @@ public class World {
 		
 	}
 
-	public World(String name, String description, List<User> writers) {
+	public World(String name, String description) {
 		this.name = name;
 		this.description = description;
-		this.writers = writers;
 		this.createdAt = new Date();
 		this.updatedAt = new Date();
 	}
@@ -151,12 +149,12 @@ public class World {
 		this.lore = lore;
 	}
 
-	public List<Character> getCharacters() {
-		return characters;
+	public List<Chara> getCharacters() {
+		return charas;
 	}
 
-	public void setCharacters(List<Character> characters) {
-		this.characters = characters;
+	public void setCharacters(List<Chara> charas) {
+		this.charas = charas;
 	}
 
 //	public StoryNode getHead() {

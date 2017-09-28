@@ -2,11 +2,12 @@
     pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Admin Page</title>
+<title>All Worlds</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -25,8 +26,16 @@
     
     <div class="collapse navbar-collapse" id="myNavbar">
     	<ul class="nav navbar-nav">
-    		<li><a href="/profile"><span class="glyphicon glyphicon-user"></span>${currentUser.username}</a></li>
-    		<li class="active"><a href="">Admin</a></li>
+    		<li class="active"><a href="/profile"><span class="glyphicon glyphicon-user"></span>${currentUser.username}</a></li>
+    		<c:if test="${isAdmin}">
+            <!-- <li class="dropdown">
+            	<a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li class="divider"></li> -->
+                    <li><a href="/admin">Admin</a></li>
+                <!-- </ul>
+            </li>-->
+            </c:if>
         </ul>
         <ul class="nav navbar-nav navbar-right">
         	<li>
@@ -41,37 +50,37 @@
 			        <input type="submit" class="btn btn-link" value="Logout" />
 			    </form>
             </li>
+            
         </ul>
     </div>
 </nav>
-<div class="container-fluid col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1">
+<div class="profile container-fluid col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1">
+<h2>Worlds</h2>
 <table class="table table-striped table-hover table-condensed table-responsive points">
     <thead>
-        <tr>
-            <!-- <th>Name</th> -->
-            <th>Username</th>
-            <th>Action</th>
-        </tr>
+	    <tr>
+	        <th>Name</th>
+	        <th>Description</th>
+	        <th>Actions</th>
+	    </tr>
     </thead>
     <tbody>
-        <c:forEach items="${users}" var="user">
+        <c:forEach items="${worlds}" var="world">
             <tr>
-                <td>${user.username}</td>
-                <%boolean adminFound=false; %>
-                <c:forEach items="${user.roles}" var="role">
-                    <c:if test="${role.id == 2}">
-                    	<%adminFound=true; %>
-                    </c:if>
-                </c:forEach>
-                <% if(adminFound){%>
-                	<td>admin</td>
-                <%}else{ %>
-                	<td><a href="/users/${user.id}/delete">delete</a> <a href="/makeAdmin/${user.id}">make-admin</a></td>
-                <%} %>
+                <td><a href="/worlds/${world.id}">${world.name}</a></td>
+                <td>${world.description}</td>
+                <!--<c:choose>
+                	<c:when test="">
+                	</c:when>
+                	<c:otherwise>
+                	</c:otherwise>
+                </c:choose>-->
+                <td><a href="/worlds/${world.id}/follow">Follow</a></td>
             </tr>
         </c:forEach>
     </tbody>
 </table>
+
 </div>
 </body>
 </html>
